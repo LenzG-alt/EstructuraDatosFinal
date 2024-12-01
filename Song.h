@@ -12,12 +12,16 @@ private:
     int year;
     std::string genre;
     double duration_ms;
+    double danceability;
+    double energy;
+    double tempo;
     
 public:
     Song() {}
     
     Song(std::string artist, std::string track, std::string id, int pop, 
-         int yr, std::string gen, double duration) {
+         int yr, std::string gen, double duration, double dance = 0.0, 
+         double nrg = 0.0, double tmp = 0.0) {
         artist_name = artist;
         track_name = track;
         track_id = id;
@@ -25,6 +29,9 @@ public:
         year = yr;
         genre = gen;
         duration_ms = duration;
+        danceability = dance;
+        energy = nrg;
+        tempo = tmp;
     }
 
     // Getters
@@ -35,6 +42,9 @@ public:
     int getYear() const { return year; }
     std::string getGenre() const { return genre; }
     double getDuration() const { return duration_ms; }
+    double getDanceability() const { return danceability; }
+    double getEnergy() const { return energy; }
+    double getTempo() const { return tempo; }
 
     // Para comparaciones
     bool operator==(const Song& other) const {

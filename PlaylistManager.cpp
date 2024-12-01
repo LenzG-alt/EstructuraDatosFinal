@@ -3,7 +3,6 @@
 #include <sstream>
 #include <iostream>
 
-// Función auxiliar para parsear una línea CSV con campos entrecomillados
 std::vector<std::string> parseCSVLine(const std::string& line) {
     std::vector<std::string> fields;
     std::string field;
@@ -14,7 +13,6 @@ std::vector<std::string> parseCSVLine(const std::string& line) {
             inQuotes = !inQuotes;
         }
         else if (c == ',' && !inQuotes) {
-            // Eliminar comillas si existen
             if (field.size() >= 2 && field.front() == '"' && field.back() == '"') {
                 field = field.substr(1, field.size() - 2);
             }
@@ -26,7 +24,6 @@ std::vector<std::string> parseCSVLine(const std::string& line) {
         }
     }
     
-    // Añadir el último campo
     if (field.size() >= 2 && field.front() == '"' && field.back() == '"') {
         field = field.substr(1, field.size() - 2);
     }
@@ -52,10 +49,8 @@ void PlaylistManager::loadFromCSV(const std::string& filename) {
         try {
             lineCount++;
             
-            // Usar el nuevo parser CSV
             auto tokens = parseCSVLine(line);
 
-            // Verificar que tengamos suficientes campos
             if (tokens.size() < 18) {
                 if (lineCount % 1000 == 0) {
                     std::cout << "Advertencia: Línea " << lineCount << " ignorada - campos insuficientes" << std::endl;
@@ -63,27 +58,32 @@ void PlaylistManager::loadFromCSV(const std::string& filename) {
                 continue;
             }
 
-            // Convertir valores numéricos con manejo de errores
             int popularity = 0;
             int year = 0;
             double duration_ms = 0.0;
+            double danceability = 0.0;
+            double energy = 0.0;
+            double tempo = 0.0;
 
             try {
-                // Limpiar y convertir valores numéricos
                 std::string popStr = tokens[4];
                 std::string yearStr = tokens[5];
                 std::string durStr = tokens[17];
+                std::string danceStr = tokens[7];
+                std::string energyStr = tokens[8];
+                std::string tempoStr = tokens[16];
 
-                // Eliminar espacios en blanco y caracteres no numéricos
                 popStr.erase(std::remove_if(popStr.begin(), popStr.end(), 
                     [](unsigned char c) { return !std::isdigit(c); }), popStr.end());
                 yearStr.erase(std::remove_if(yearStr.begin(), yearStr.end(), 
                     [](unsigned char c) { return !std::isdigit(c); }), yearStr.end());
                 
-                // Convertir a números
                 popularity = popStr.empty() ? 0 : std::stoi(popStr);
                 year = yearStr.empty() ? 0 : std::stoi(yearStr);
                 duration_ms = durStr.empty() ? 0.0 : std::stod(durStr);
+                danceability = danceStr.empty() ? 0.0 : std::stod(danceStr);
+                energy = energyStr.empty() ? 0.0 : std::stod(energyStr);
+                tempo = tempoStr.empty() ? 0.0 : std::stod(tempoStr);
                 
             } catch (const std::exception& e) {
                 if (lineCount % 1000 == 0) {
@@ -92,7 +92,6 @@ void PlaylistManager::loadFromCSV(const std::string& filename) {
                 continue;
             }
 
-            // Verificar que los campos obligatorios no estén vacíos
             if (tokens[1].empty() || tokens[2].empty() || tokens[3].empty()) {
                 if (lineCount % 1000 == 0) {
                     std::cout << "Advertencia: Línea " << lineCount << " ignorada - campos obligatorios vacíos" << std::endl;
@@ -107,12 +106,19 @@ void PlaylistManager::loadFromCSV(const std::string& filename) {
                 popularity,
                 year,
                 tokens[6],    // genre
-                duration_ms
+                duration_ms,
+                danceability,
+                energy,
+                tempo
             );
             
             songDatabase.insert(song);
             
-            // Mostrar progreso cada 10000 canciones
+            // Actualizar índices
+            artistIndex.insert({tokens[1], tokens[3]});
+            titleIndex.insert({tokens[2], tokens[3]});
+            genreIndex.insert({tokens[6], tokens[3]});
+
             if (lineCount % 10000 == 0) {
                 std::cout << "Procesadas " << lineCount << " canciones..." << std::endl;
             }
