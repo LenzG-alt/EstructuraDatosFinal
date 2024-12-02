@@ -3,14 +3,16 @@
 
 #include <string>
 
+using namespace std;
+
 class Song {
 private:
-    std::string artist_name;
-    std::string track_name;
-    std::string track_id;
+    string artist_name;
+    string track_name;
+    string track_id;
     int popularity;
     int year;
-    std::string genre;
+    string genre;
     double duration_ms;
     double danceability;
     double energy;
@@ -19,8 +21,8 @@ private:
 public:
     Song() {}
     
-    Song(std::string artist, std::string track, std::string id, int pop, 
-         int yr, std::string gen, double duration, double dance = 0.0, 
+    Song(string artist, string track, string id, int pop, 
+         int yr, string gen, double duration, double dance = 0.0, 
          double nrg = 0.0, double tmp = 0.0) {
         artist_name = artist;
         track_name = track;
@@ -35,12 +37,12 @@ public:
     }
 
     // Getters
-    std::string getArtist() const { return artist_name; }
-    std::string getTrackName() const { return track_name; }
-    std::string getTrackId() const { return track_id; }
+    string getArtist() const { return artist_name; }
+    string getTrackName() const { return track_name; }
+    string getTrackId() const { return track_id; }
     int getPopularity() const { return popularity; }
     int getYear() const { return year; }
-    std::string getGenre() const { return genre; }
+    string getGenre() const { return genre; }
     double getDuration() const { return duration_ms; }
     double getDanceability() const { return danceability; }
     double getEnergy() const { return energy; }

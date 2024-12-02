@@ -3,6 +3,8 @@
 #include <iomanip>
 #include "PlaylistManager.h"
 
+using namespace std;
+
 void limpiarPantalla() {
     #ifdef _WIN32
         system("cls");
@@ -12,86 +14,85 @@ void limpiarPantalla() {
 }
 
 void pausar() {
-    std::cout << "\nPresione Enter para continuar...";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cout << "\nPresione Enter para continuar...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
 void limpiarBuffer() {
-    std::cin.clear();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
 void mostrarMenu() {
     limpiarPantalla();
-    std::cout << "\n=== Gestor de Lista de Reproducción ===" << std::endl;
-    std::cout << "1. Cargar canciones desde CSV" << std::endl;
-    std::cout << "2. Agregar canción a la playlist" << std::endl;
-    std::cout << "3. Eliminar canción de la playlist" << std::endl;
-    std::cout << "4. Cambiar orden de una canción" << std::endl;
-    std::cout << "5. Reproducción aleatoria" << std::endl;
-    std::cout << "6. Mostrar playlist actual" << std::endl;
-    std::cout << "7. Mostrar todas las canciones disponibles" << std::endl;
-    std::cout << "8. Búsqueda avanzada" << std::endl;
-    std::cout << "9. Ordenar canciones" << std::endl;
-    std::cout << "10. Salir" << std::endl;
-    std::cout << "Seleccione una opción: ";
+    cout << "\n=== Gestor de Lista de Reproducción ===" << endl;
+    cout << "1. Cargar canciones desde CSV" << endl;
+    cout << "2. Agregar canción a la playlist" << endl;
+    cout << "3. Eliminar canción de la playlist" << endl;
+    cout << "4. Cambiar orden de una canción" << endl;
+    cout << "5. Reproducción aleatoria" << endl;
+    cout << "6. Mostrar playlist actual" << endl;
+    cout << "7. Mostrar todas las canciones disponibles" << endl;
+    cout << "8. Búsqueda avanzada" << endl;
+    cout << "9. Ordenar canciones" << endl;
+    cout << "10. Salir" << endl;
+    cout << "Seleccione una opción: ";
 }
 
 void mostrarMenuBusqueda() {
     limpiarPantalla();
-    std::cout << "\n=== Búsqueda Avanzada ===" << std::endl;
-    std::cout << "1. Buscar por artista" << std::endl;
-    std::cout << "2. Buscar por nombre de canción" << std::endl;
-    std::cout << "3. Buscar por género" << std::endl;
-    std::cout << "4. Buscar por duración" << std::endl;
-    std::cout << "5. Volver al menú principal" << std::endl;
-    std::cout << "Seleccione una opción: ";
+    cout << "\n=== Búsqueda Avanzada ===" << endl;
+    cout << "1. Buscar por artista" << endl;
+    cout << "2. Buscar por nombre de canción" << endl;
+    cout << "3. Buscar por género" << endl;
+    cout << "4. Volver al menú principal" << endl;
+    cout << "Seleccione una opción: ";
 }
 
 void mostrarMenuOrdenamiento() {
     limpiarPantalla();
-    std::cout << "\n=== Ordenar Canciones ===" << std::endl;
-    std::cout << "1. Por popularidad" << std::endl;
-    std::cout << "2. Por año" << std::endl;
-    std::cout << "3. Por duración" << std::endl;
-    std::cout << "4. Por bailabilidad" << std::endl;
-    std::cout << "5. Volver al menú principal" << std::endl;
-    std::cout << "Seleccione una opción: ";
+    cout << "\n=== Ordenar Canciones ===" << endl;
+    cout << "1. Por popularidad" << endl;
+    cout << "2. Por año" << endl;
+    cout << "3. Por duración" << endl;
+    cout << "4. Por bailabilidad" << endl;
+    cout << "5. Volver al menú principal" << endl;
+    cout << "Seleccione una opción: ";
 }
 
-void mostrarCanciones(const std::vector<Song>& songs) {
+void mostrarCanciones(const vector<Song>& songs) {
     int index = 0;
-    std::cout << std::left << std::setw(5) << "Idx" 
-              << std::setw(30) << "Artista"
-              << std::setw(40) << "Canción"
-              << std::setw(10) << "Año"
-              << std::setw(15) << "Duración (s)"
-              << std::setw(15) << "Popularidad"
-              << std::setw(20) << "Género" << std::endl;
-    std::cout << std::string(135, '-') << std::endl;
+    cout << left << setw(5) << "Idx" 
+              << setw(30) << "Artista"
+              << setw(40) << "Canción"
+              << setw(10) << "Año"
+              << setw(15) << "Duración (s)"
+              << setw(15) << "Popularidad"
+              << setw(20) << "Género" << endl;
+    cout << string(135, '-') << endl;
 
     for (const auto& song : songs) {
-        std::cout << std::left << std::setw(5) << index++
-                  << std::setw(30) << (song.getArtist().length() > 27 ? song.getArtist().substr(0, 27) + "..." : song.getArtist())
-                  << std::setw(40) << (song.getTrackName().length() > 37 ? song.getTrackName().substr(0, 37) + "..." : song.getTrackName())
-                  << std::setw(10) << song.getYear()
-                  << std::setw(15) << std::fixed << std::setprecision(2) << (song.getDuration() / 1000.0)
-                  << std::setw(15) << song.getPopularity()
-                  << std::setw(20) << (song.getGenre().length() > 17 ? song.getGenre().substr(0, 17) + "..." : song.getGenre())
-                  << std::endl;
+        cout << left << setw(5) << index++
+                  << setw(30) << (song.getArtist().length() > 27 ? song.getArtist().substr(0, 27) + "..." : song.getArtist())
+                  << setw(40) << (song.getTrackName().length() > 37 ? song.getTrackName().substr(0, 37) + "..." : song.getTrackName())
+                  << setw(10) << song.getYear()
+                  << setw(15) << fixed << setprecision(2) << (song.getDuration() / 1000.0)
+                  << setw(15) << song.getPopularity()
+                  << setw(20) << (song.getGenre().length() > 17 ? song.getGenre().substr(0, 17) + "..." : song.getGenre())
+                  << endl;
     }
 }
 
 int main() {
     PlaylistManager manager;
     int opcion;
-    std::string filename = "spotify_data.csv";
+    string filename = "spotify_data.csv";
     bool archivoYaCargado = false;
 
     do {
         mostrarMenu();
         
-        if (!(std::cin >> opcion)) {
+        if (!(cin >> opcion)) {
             limpiarBuffer();
             continue;
         }
@@ -101,62 +102,62 @@ int main() {
         switch (opcion) {
             case 1: {
                 if (archivoYaCargado) {
-                    std::cout << "El archivo ya fue cargado anteriormente." << std::endl;
+                    cout << "El archivo ya fue cargado anteriormente." << endl;
                 } else {
-                    std::cout << "Cargando canciones desde " << filename << "..." << std::endl;
+                    cout << "Cargando canciones desde " << filename << "..." << endl;
                     manager.loadFromCSV(filename);
                     archivoYaCargado = true;
-                    std::cout << "Canciones cargadas exitosamente!" << std::endl;
+                    cout << "Canciones cargadas exitosamente!" << endl;
                 }
                 pausar();
                 break;
             }
             case 2: {
                 if (!archivoYaCargado) {
-                    std::cout << "Primero debe cargar el archivo CSV (opción 1)." << std::endl;
+                    cout << "Primero debe cargar el archivo CSV (opción 1)." << endl;
                     pausar();
                     break;
                 }
                 
-                std::cout << "Ingrese el ID de la canción a agregar: ";
-                std::string trackId;
-                std::getline(std::cin, trackId);
+                cout << "Ingrese el ID de la canción a agregar: ";
+                string trackId;
+                getline(cin, trackId);
                 
                 if (manager.addToPlaylist(trackId)) {
-                    std::cout << "Canción agregada exitosamente!" << std::endl;
+                    cout << "Canción agregada exitosamente!" << endl;
                 } else {
-                    std::cout << "No se pudo agregar la canción." << std::endl;
+                    cout << "No se pudo agregar la canción." << endl;
                 }
                 pausar();
                 break;
             }
             case 3: {
                 if (!archivoYaCargado) {
-                    std::cout << "Primero debe cargar el archivo CSV (opción 1)." << std::endl;
+                    cout << "Primero debe cargar el archivo CSV (opción 1)." << endl;
                     pausar();
                     break;
                 }
                 
-                std::cout << "Playlist actual:" << std::endl;
+                cout << "Playlist actual:" << endl;
                 auto playlistSongs = manager.getPlaylistSongs();
                 mostrarCanciones(playlistSongs);
                 
                 if (playlistSongs.empty()) {
-                    std::cout << "La playlist está vacía." << std::endl;
+                    cout << "La playlist está vacía." << endl;
                     pausar();
                     break;
                 }
                 
-                std::cout << "\nIngrese el índice de la canción a eliminar: ";
+                cout << "\nIngrese el índice de la canción a eliminar: ";
                 int idx;
-                if (std::cin >> idx && idx >= 0 && idx < playlistSongs.size()) {
+                if (cin >> idx && idx >= 0 && idx < playlistSongs.size()) {
                     if (manager.removeFromPlaylist(playlistSongs[idx].getTrackId())) {
-                        std::cout << "Canción eliminada exitosamente!" << std::endl;
+                        cout << "Canción eliminada exitosamente!" << endl;
                     } else {
-                        std::cout << "No se pudo eliminar la canción." << std::endl;
+                        cout << "No se pudo eliminar la canción." << endl;
                     }
                 } else {
-                    std::cout << "Índice inválido." << std::endl;
+                    cout << "Índice inválido." << endl;
                 }
                 limpiarBuffer();
                 pausar();
@@ -164,42 +165,42 @@ int main() {
             }
             case 4: {
                 if (!archivoYaCargado) {
-                    std::cout << "Primero debe cargar el archivo CSV (opción 1)." << std::endl;
+                    cout << "Primero debe cargar el archivo CSV (opción 1)." << endl;
                     pausar();
                     break;
                 }
                 
                 auto playlistSongs = manager.getPlaylistSongs();
                 if (playlistSongs.empty()) {
-                    std::cout << "La playlist está vacía." << std::endl;
+                    cout << "La playlist está vacía." << endl;
                     pausar();
                     break;
                 }
                 
-                std::cout << "Playlist actual:" << std::endl;
+                cout << "Playlist actual:" << endl;
                 mostrarCanciones(playlistSongs);
                 
                 int posActual, nuevaPos;
-                std::cout << "Ingrese la posición actual: ";
-                if (!(std::cin >> posActual)) {
-                    std::cout << "Entrada inválida." << std::endl;
+                cout << "Ingrese la posición actual: ";
+                if (!(cin >> posActual)) {
+                    cout << "Entrada inválida." << endl;
                     limpiarBuffer();
                     pausar();
                     break;
                 }
                 
-                std::cout << "Ingrese la nueva posición: ";
-                if (!(std::cin >> nuevaPos)) {
-                    std::cout << "Entrada inválida." << std::endl;
+                cout << "Ingrese la nueva posición: ";
+                if (!(cin >> nuevaPos)) {
+                    cout << "Entrada inválida." << endl;
                     limpiarBuffer();
                     pausar();
                     break;
                 }
                 
                 if (manager.changeOrder(posActual, nuevaPos)) {
-                    std::cout << "Orden cambiado exitosamente!" << std::endl;
+                    cout << "Orden cambiado exitosamente!" << endl;
                 } else {
-                    std::cout << "No se pudo cambiar el orden." << std::endl;
+                    cout << "No se pudo cambiar el orden." << endl;
                 }
                 limpiarBuffer();
                 pausar();
@@ -207,18 +208,18 @@ int main() {
             }
             case 5: {
                 if (!archivoYaCargado) {
-                    std::cout << "Primero debe cargar el archivo CSV (opción 1)." << std::endl;
+                    cout << "Primero debe cargar el archivo CSV (opción 1)." << endl;
                     pausar();
                     break;
                 }
                 
                 auto playlistSongs = manager.getPlaylistSongs();
                 if (playlistSongs.empty()) {
-                    std::cout << "La playlist está vacía." << std::endl;
+                    cout << "La playlist está vacía." << endl;
                 } else {
                     manager.shufflePlaylist();
-                    std::cout << "Playlist reorganizada aleatoriamente!" << std::endl;
-                    std::cout << "\nNuevo orden:" << std::endl;
+                    cout << "Playlist reorganizada aleatoriamente!" << endl;
+                    cout << "\nNuevo orden:" << endl;
                     mostrarCanciones(manager.getPlaylistSongs());
                 }
                 pausar();
@@ -226,15 +227,15 @@ int main() {
             }
             case 6: {
                 if (!archivoYaCargado) {
-                    std::cout << "Primero debe cargar el archivo CSV (opción 1)." << std::endl;
+                    cout << "Primero debe cargar el archivo CSV (opción 1)." << endl;
                     pausar();
                     break;
                 }
                 
-                std::cout << "Playlist actual:" << std::endl;
+                cout << "Playlist actual:" << endl;
                 auto playlistSongs = manager.getPlaylistSongs();
                 if (playlistSongs.empty()) {
-                    std::cout << "La playlist está vacía." << std::endl;
+                    cout << "La playlist está vacía." << endl;
                 } else {
                     mostrarCanciones(playlistSongs);
                 }
@@ -243,15 +244,15 @@ int main() {
             }
             case 7: {
                 if (!archivoYaCargado) {
-                    std::cout << "Primero debe cargar el archivo CSV (opción 1)." << std::endl;
+                    cout << "Primero debe cargar el archivo CSV (opción 1)." << endl;
                     pausar();
                     break;
                 }
                 
-                std::cout << "Todas las canciones disponibles:" << std::endl;
+                cout << "Todas las canciones disponibles:" << endl;
                 auto songs = manager.getAllSongs();
                 if (songs.empty()) {
-                    std::cout << "No hay canciones cargadas." << std::endl;
+                    cout << "No hay canciones cargadas." << endl;
                 } else {
                     mostrarCanciones(songs);
                 }
@@ -260,7 +261,7 @@ int main() {
             }
             case 8: {
                 if (!archivoYaCargado) {
-                    std::cout << "Primero debe cargar el archivo CSV (opción 1)." << std::endl;
+                    cout << "Primero debe cargar el archivo CSV (opción 1)." << endl;
                     pausar();
                     break;
                 }
@@ -268,7 +269,7 @@ int main() {
                 int opcionBusqueda;
                 do {
                     mostrarMenuBusqueda();
-                    if (!(std::cin >> opcionBusqueda)) {
+                    if (!(cin >> opcionBusqueda)) {
                         limpiarBuffer();
                         continue;
                     }
@@ -276,68 +277,42 @@ int main() {
 
                     switch (opcionBusqueda) {
                         case 1: {
-                            std::cout << "Ingrese el prefijo del nombre del artista: ";
-                            std::string prefijo;
-                            std::getline(std::cin, prefijo);
+                            cout << "Ingrese el prefijo del nombre del artista: ";
+                            string prefijo;
+                            getline(cin, prefijo);
                             auto resultados = manager.searchByArtist(prefijo);
-                            std::cout << "\nResultados encontrados: " << resultados.size() << std::endl;
+                            cout << "\nResultados encontrados: " << resultados.size() << endl;
                             mostrarCanciones(resultados);
                             pausar();
                             break;
                         }
                         case 2: {
-                            std::cout << "Ingrese el prefijo del nombre de la canción: ";
-                            std::string prefijo;
-                            std::getline(std::cin, prefijo);
+                            cout << "Ingrese el prefijo del nombre de la canción: ";
+                            string prefijo;
+                            getline(cin, prefijo);
                             auto resultados = manager.searchByTitle(prefijo);
-                            std::cout << "\nResultados encontrados: " << resultados.size() << std::endl;
+                            cout << "\nResultados encontrados: " << resultados.size() << endl;
                             mostrarCanciones(resultados);
                             pausar();
                             break;
                         }
                         case 3: {
-                            std::cout << "Ingrese el género a buscar: ";
-                            std::string genero;
-                            std::getline(std::cin, genero);
+                            cout << "Ingrese el género a buscar: ";
+                            string genero;
+                            getline(cin, genero);
                             auto resultados = manager.searchByGenre(genero);
-                            std::cout << "\nResultados encontrados: " << resultados.size() << std::endl;
-                            mostrarCanciones(resultados);
-                            pausar();
-                            break;
-                        }
-                        case 4: {
-                            double minDur, maxDur;
-                            std::cout << "Ingrese la duración mínima (en segundos): ";
-                            if (!(std::cin >> minDur)) {
-                                std::cout << "Entrada inválida para duración mínima." << std::endl;
-                                limpiarBuffer();
-                                pausar();
-                                break;
-                            }
-                            limpiarBuffer();
-
-                            std::cout << "Ingrese la duración máxima (en segundos): ";
-                            if (!(std::cin >> maxDur)) {
-                                std::cout << "Entrada inválida para duración máxima." << std::endl;
-                                limpiarBuffer();
-                                pausar();
-                                break;
-                            }
-                            limpiarBuffer();
-
-                            auto resultados = manager.searchByDuration(minDur, maxDur);
-                            std::cout << "\nResultados encontrados: " << resultados.size() << std::endl;
+                            cout << "\nResultados encontrados: " << resultados.size() << endl;
                             mostrarCanciones(resultados);
                             pausar();
                             break;
                         }
                     }
-                } while (opcionBusqueda != 5);
+                } while (opcionBusqueda != 4);
                 break;
             }
             case 9: {
                 if (!archivoYaCargado) {
-                    std::cout << "Primero debe cargar el archivo CSV (opción 1)." << std::endl;
+                    cout << "Primero debe cargar el archivo CSV (opción 1)." << endl;
                     pausar();
                     break;
                 }
@@ -345,29 +320,29 @@ int main() {
                 int opcionOrden;
                 do {
                     mostrarMenuOrdenamiento();
-                    if (!(std::cin >> opcionOrden)) {
+                    if (!(cin >> opcionOrden)) {
                         limpiarBuffer();
                         continue;
                     }
                     limpiarBuffer();
 
-                    std::vector<Song> resultados;
+                    vector<Song> resultados;
                     switch (opcionOrden) {
                         case 1:
                             resultados = manager.getSortedSongs(SortCriteria::POPULARITY);
-                            std::cout << "\nCanciones ordenadas por popularidad:" << std::endl;
+                            cout << "\nCanciones ordenadas por popularidad:" << endl;
                             break;
                         case 2:
                             resultados = manager.getSortedSongs(SortCriteria::YEAR);
-                            std::cout << "\nCanciones ordenadas por año:" << std::endl;
+                            cout << "\nCanciones ordenadas por año:" << endl;
                             break;
                         case 3:
                             resultados = manager.getSortedSongs(SortCriteria::DURATION);
-                            std::cout << "\nCanciones ordenadas por duración:" << std::endl;
+                            cout << "\nCanciones ordenadas por duración:" << endl;
                             break;
                         case 4:
                             resultados = manager.getSortedSongs(SortCriteria::DANCEABILITY);
-                            std::cout << "\nCanciones ordenadas por bailabilidad:" << std::endl;
+                            cout << "\nCanciones ordenadas por bailabilidad:" << endl;
                             break;
                     }
 
@@ -379,11 +354,11 @@ int main() {
                 break;
             }
             case 10: {
-                std::cout << "¡Gracias por usar el programa!" << std::endl;
+                cout << "¡Gracias por usar el programa!" << endl;
                 break;
             }
             default: {
-                std::cout << "Opción inválida. Por favor, intente de nuevo." << std::endl;
+                cout << "Opción inválida. Por favor, intente de nuevo." << endl;
                 pausar();
             }
         }

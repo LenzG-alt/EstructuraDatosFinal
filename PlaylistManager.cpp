@@ -3,9 +3,11 @@
 #include <sstream>
 #include <iostream>
 
-std::vector<std::string> parseCSVLine(const std::string& line) {
-    std::vector<std::string> fields;
-    std::string field;
+using namespace std;
+
+vector<string> parseCSVLine(const string& line) {
+    vector<string> fields;
+    string field;
     bool inQuotes = false;
     
     for (char c : line) {
@@ -32,20 +34,20 @@ std::vector<std::string> parseCSVLine(const std::string& line) {
     return fields;
 }
 
-void PlaylistManager::loadFromCSV(const std::string& filename) {
-    std::ifstream file(filename);
+void PlaylistManager::loadFromCSV(const string& filename) {
+    ifstream file(filename);
     if (!file.is_open()) {
-        std::cout << "Error: No se pudo abrir el archivo " << filename << std::endl;
+        cout << "Error: No se pudo abrir el archivo " << filename << endl;
         return;
     }
 
-    std::string line;
+    string line;
     int lineCount = 0;
     
     // Saltar la primera línea (encabezados)
-    std::getline(file, line);
+    getline(file, line);
     
-    while (std::getline(file, line)) {
+    while (getline(file, line)) {
         try {
             lineCount++;
             
@@ -53,7 +55,7 @@ void PlaylistManager::loadFromCSV(const std::string& filename) {
 
             if (tokens.size() < 18) {
                 if (lineCount % 1000 == 0) {
-                    std::cout << "Advertencia: Línea " << lineCount << " ignorada - campos insuficientes" << std::endl;
+                    cout << "Advertencia: Línea " << lineCount << " ignorada - campos insuficientes" << endl;
                 }
                 continue;
             }
@@ -66,35 +68,35 @@ void PlaylistManager::loadFromCSV(const std::string& filename) {
             double tempo = 0.0;
 
             try {
-                std::string popStr = tokens[4];
-                std::string yearStr = tokens[5];
-                std::string durStr = tokens[17];
-                std::string danceStr = tokens[7];
-                std::string energyStr = tokens[8];
-                std::string tempoStr = tokens[16];
+                string popStr = tokens[4];
+                string yearStr = tokens[5];
+                string durStr = tokens[17];
+                string danceStr = tokens[7];
+                string energyStr = tokens[8];
+                string tempoStr = tokens[16];
 
-                popStr.erase(std::remove_if(popStr.begin(), popStr.end(), 
-                    [](unsigned char c) { return !std::isdigit(c); }), popStr.end());
-                yearStr.erase(std::remove_if(yearStr.begin(), yearStr.end(), 
-                    [](unsigned char c) { return !std::isdigit(c); }), yearStr.end());
+                popStr.erase(remove_if(popStr.begin(), popStr.end(), 
+                    [](unsigned char c) { return !isdigit(c); }), popStr.end());
+                yearStr.erase(remove_if(yearStr.begin(), yearStr.end(), 
+                    [](unsigned char c) { return !isdigit(c); }), yearStr.end());
                 
-                popularity = popStr.empty() ? 0 : std::stoi(popStr);
-                year = yearStr.empty() ? 0 : std::stoi(yearStr);
-                duration_ms = durStr.empty() ? 0.0 : std::stod(durStr);
-                danceability = danceStr.empty() ? 0.0 : std::stod(danceStr);
-                energy = energyStr.empty() ? 0.0 : std::stod(energyStr);
-                tempo = tempoStr.empty() ? 0.0 : std::stod(tempoStr);
+                popularity = popStr.empty() ? 0 : stoi(popStr);
+                year = yearStr.empty() ? 0 : stoi(yearStr);
+                duration_ms = durStr.empty() ? 0.0 : stod(durStr);
+                danceability = danceStr.empty() ? 0.0 : stod(danceStr);
+                energy = energyStr.empty() ? 0.0 : stod(energyStr);
+                tempo = tempoStr.empty() ? 0.0 : stod(tempoStr);
                 
-            } catch (const std::exception& e) {
+            } catch (const exception& e) {
                 if (lineCount % 1000 == 0) {
-                    std::cout << "Advertencia: Error al procesar valores numéricos en línea " << lineCount << std::endl;
+                    cout << "Advertencia: Error al procesar valores numéricos en línea " << lineCount << endl;
                 }
                 continue;
             }
 
             if (tokens[1].empty() || tokens[2].empty() || tokens[3].empty()) {
                 if (lineCount % 1000 == 0) {
-                    std::cout << "Advertencia: Línea " << lineCount << " ignorada - campos obligatorios vacíos" << std::endl;
+                    cout << "Advertencia: Línea " << lineCount << " ignorada - campos obligatorios vacíos" << endl;
                 }
                 continue;
             }
@@ -105,7 +107,7 @@ void PlaylistManager::loadFromCSV(const std::string& filename) {
                 tokens[3],    // track_id
                 popularity,
                 year,
-                tokens[6],    // genre
+                tokens[6],    // genreadad
                 duration_ms,
                 danceability,
                 energy,
@@ -120,16 +122,16 @@ void PlaylistManager::loadFromCSV(const std::string& filename) {
             genreIndex.insert({tokens[6], tokens[3]});
 
             if (lineCount % 10000 == 0) {
-                std::cout << "Procesadas " << lineCount << " canciones..." << std::endl;
+                cout << "Procesadas " << lineCount << " canciones..." << endl;
             }
 
-        } catch (const std::exception& e) {
+        } catch (const exception& e) {
             if (lineCount % 1000 == 0) {
-                std::cout << "Error al procesar línea " << lineCount << ": " << e.what() << std::endl;
+                cout << "Error al procesar línea " << lineCount << ": " << e.what() << endl;
             }
             continue;
         }
     }
     
-    std::cout << "Proceso completado. Total de líneas procesadas: " << lineCount << std::endl;
+    cout << "Proceso completado. Total de líneas procesadas: " << lineCount << endl;
 }

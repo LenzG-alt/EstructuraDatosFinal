@@ -5,12 +5,14 @@
 #include <list>
 #include "Song.h"
 
+using namespace std;
+
 class HashTable {
 private:
     static const int TABLE_SIZE = 10007; // Número primo para mejor distribución
-    std::vector<std::list<Song>> table;
+    vector<list<Song>> table;
 
-    int hash(const std::string& key) const {
+    int hash(const string& key) const {
         int hash = 0;
         for (char c : key) {
             hash = (hash * 31 + c) % TABLE_SIZE;
@@ -32,7 +34,7 @@ public:
         table[index].push_back(song);
     }
 
-    bool remove(const std::string& trackId) {
+    bool remove(const string& trackId) {
         int index = hash(trackId);
         auto& bucket = table[index];
         for (auto it = bucket.begin(); it != bucket.end(); ++it) {
@@ -44,7 +46,7 @@ public:
         return false;
     }
 
-    Song* find(const std::string& trackId) {
+    Song* find(const string& trackId) {
         int index = hash(trackId);
         for (auto& song : table[index]) {
             if (song.getTrackId() == trackId) {
@@ -54,8 +56,8 @@ public:
         return nullptr;
     }
 
-    std::vector<Song> getAllSongs() const {
-        std::vector<Song> songs;
+    vector<Song> getAllSongs() const {
+        vector<Song> songs;
         for (const auto& bucket : table) {
             for (const auto& song : bucket) {
                 songs.push_back(song);
